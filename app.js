@@ -163,19 +163,19 @@ usp.on('connection',async function (socket) {
 
 
 
-
+const PORT = process.env.PORT || 3000
 
 
 // const PORT = 3000;
 
 
 
-// server.listen(PORT, '192.168.1.113', function () {
-//     console.log(`server is runing `);
-// });
-
-
-const PORT = `${window.location.origin}`;
-server.listen(PORT, function () {
-    console.log(`server is runing`);
+server.listen(PORT,   ()=> {
+    console.log(`server is runing `);
 });
+
+
+// const PORT = `${window.location.origin}`;
+// server.listen(PORT, function () {
+//     console.log(`server is runing`);
+// });
