@@ -2,13 +2,14 @@
 
 const sql = require('mssql');
 
-const { Sequelize } = require('sequelize');
+
 
 
 const config = {
   user: 'sa',
-  password: 'gopl@123',
-  server: '192.168.1.122', 
+  password: 'fidM3h7j5y648t29',
+  server: '180.179.212.50', 
+  port: 1533,
   database: 'crmGlobal',
    options: {
     encrypt: false, 
@@ -22,7 +23,7 @@ async function connectSQL() {
     await sql.connect(config);
     console.log('Connected to SQL Server');
   } catch (err) {
-    console.error('Error connecting to SQL Server:', err);
+   console.error('Error connecting to SQL Server:', err);
   }
   
 }
@@ -35,5 +36,12 @@ async function connectSQL() {
 
 
 module.exports = { connectSQL, sql };
+
+
+
+
+
+
+
 
 

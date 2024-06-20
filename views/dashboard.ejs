@@ -271,7 +271,7 @@
                                         <!-- <img src="<%='http://192.168.1.113:3000/'+  users[i]['image'] %>" alt="" width="100px" height="100px"> -->
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <span style="color: #d84315"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span> <label name="list_username"><%= users[i]['f_First_name'] %></label>
+                                            <span style="color: #d84315"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span> <label name="list_username"><%= users[i]['f_First_name'] %> (<%=users[i]['f_Student_id'] %>)</label>
                                                 <br>
                                                     <% if(users[i]['is_online']==1){ %>
                                                         <sub class="online-status"  id="<%= users[i]['f_Student_id']%>-status"> <i class="fa fa-circle" aria-hidden="true"></i> <label name="OnlineStatus">Online</label> </sub>
@@ -354,7 +354,7 @@
 
             $('.start-head').hide();
             $('.chat-section').show();
-
+            $("#message").val('');
             socket.emit('existsChat',{sender_id:sender_id, receiver_id: receiver_id })
         })
     })
@@ -384,7 +384,8 @@
         $('#chat-form').submit(function(event){
 
             event.preventDefault();
-            var message = $('#message').val();
+            var rawmessage = $('#message').val();
+            var message = rawmessage.replace(/'/g, "");
             if(sender_id==undefined || receiver_id==undefined){
                 alert("No user selected. Messages not allowed.");
                 return;
@@ -417,8 +418,36 @@
                         $('#message').val('');
 
                         socket.emit('newChat',response.data[0]);
+                        // Add POST API call here
+                       
 
                         scrollchat();
+
+                         // New POST API requests
+                        var notificationData = {
+                            "to": "fBYhhvOvQBG6KBAdays5FL:APA91bFHdcthusKuLL9F1nutL4vWdQwdqLpREaMteBD3WrUihXz0_vYXak4FBreJkWfsS8yAnmVCzOmVDad5NN1x6v4B0m5HEmWF2pCW4VAUiYP1s7DGg6b83b99sKPzPCJkj2Y-J9zO",
+                            "notification": {
+                                "title": "uuuuuuuuu",
+                                "body": "Hey there! We've just released a new update for our app"
+                            }
+                        };
+
+                        $.ajax({
+                            url: 'https://fcm.googleapis.com/fcm/send', // Replace with your API endpoint URL
+                            type: 'POST',
+                             headers: {
+                                "Authorization": "Key=AAAA_6tSD64:APA91bHzrxSzpFTw8SK-lervxya0Hof77dt1DeuU8b8jIID-_oUgdi843x110xDXYNPHu_8wNiajuXUWCRHewd4D-Etq4FU1QORB2QSqS47ls3xLyJTU1rqvLDOwaYpEDNLleNYrnzbF"
+                            },
+                            contentType: 'application/json',
+
+                            data: JSON.stringify(notificationData),
+                            success: function (response) {
+                                console.log('Notification sent successfully:', response);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error sending notification:', status, error);
+                            }
+                        });
 
                      
                     }else{

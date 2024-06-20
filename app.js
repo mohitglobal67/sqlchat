@@ -25,8 +25,8 @@ mongoose.connect("mongodb+srv://mohitglobal67:mohit@sbs.jjk73yj.mongodb.net/test
 
 const app = require('express')();
 // const http = require('http');
-app.use((req, res, next) => {
-  connectSQL().then(() => {
+app.use(async(req, res, next) => {
+ await connectSQL().then(() => {
     next();
   });
 });
